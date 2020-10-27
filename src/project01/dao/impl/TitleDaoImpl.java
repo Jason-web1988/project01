@@ -78,4 +78,46 @@ public class TitleDaoImpl implements TitleDao {
 		}
 	}
 
+	@Override
+	public Title selectTitleByNo(Title title) {
+		String sql = "SELECT TITLE_NO, TITLE_NAME FROM TITLE WHERE TITLE_NO = ? ";
+		try(Connection con = JndiDS.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);){
+				pstmt.setInt(1, title.getTitleNo());
+				try(ResultSet rs = pstmt.executeQuery()){
+					if(rs.next()) {
+						return getTitle(rs);
+					}
+				}
+		} catch (SQLException e) {
+			throw new CustomSQLException(e);
+		}
+		return null;
+	}
+
+	@Override
+	public int deleteTitle(Title title) {
+		String sql="DELETE FROM TITLE WHERE TITLE_NO = ? ";
+		try(Connection con = JndiDS.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);){
+			pstmt.setInt(1, title.getTitleNo());
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new CustomSQLException(e);
+		}
+	}
+
+	@Override
+	public int updateTitle(Title title) {
+		String sql="UPDATE TITLE SET TITLE_NAME = ? WHERE TITLE_NO = ? ";
+		try(Connection con = JndiDS.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql)){
+			pstmt.setString(1, title.getTitleName());
+			pstmt.setInt(2, title.getTitleNo());
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new CustomSQLException(e);
+		}
+	}
+
 }

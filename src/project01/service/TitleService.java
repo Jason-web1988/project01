@@ -20,4 +20,16 @@ public class TitleService {
 	public int addTitle(Title title) {
 		return titleDao.insertTitle(title);
 	}
+	
+	public Title getTitle(Title title) {
+		return titleDao.selectTitleByNo(title);
+	}
+	
+	public int removeTitle(Title title) {
+		return titleDao.deleteTitle(title);
+	}
+	
+	public int modifyTitle(Title title) {
+		return titleDao.updateTitle(title);
+	}
 }

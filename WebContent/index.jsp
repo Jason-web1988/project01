@@ -13,5 +13,14 @@
 	<c:out value="${con}"></c:out>
 	<br><hr><br>
 	<a href="TitleListHandler"><b>직책 목록</b></a>
+	
+	<br><hr><br>
+	
+	<a href="DeptListHandler"><b>부서 목록</b></a>
+	
+	<br><hr><br>
+	
+	<a href="EmpListHandler"><b>직원 목록</b></a>
+	
 </body>
 </html>

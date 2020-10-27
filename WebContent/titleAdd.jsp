@@ -24,6 +24,10 @@ $(function(){
 			}
 		})
 	});
+	
+	$('#cancel').on("click", function(){
+		location.href="TitleListHandler";			
+	});
 });
 </script>
 

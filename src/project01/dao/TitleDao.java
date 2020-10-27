@@ -12,4 +12,9 @@ public interface TitleDao {
 	
 	int insertTitle(Title title);
 	
+	Title selectTitleByNo(Title title);
+	
+	int deleteTitle(Title title);
+	
+	int updateTitle(Title title);
 }

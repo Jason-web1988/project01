@@ -10,6 +10,15 @@ public class Title {
 		// TODO Auto-generated constructor stub
 	}
 	
+	
+	
+	public Title(int titleNo) {
+		super();
+		this.titleNo = titleNo;
+	}
+
+
+
 	public Title(int titleNo, String titleName) {
 		super();
 		this.titleNo = titleNo;
