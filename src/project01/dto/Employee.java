@@ -1,6 +1,6 @@
 package project01.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Employee {
 	private int empNo;
@@ -25,6 +25,8 @@ public class Employee {
 		this.empNo = empNo;
 	}
 
+
+
 	public Employee(int empNo, String empName, Title title, Employee manager, int salary, Department dept, String email,
 			String passwd, Date regDate, String tel, String picUrl) {
 		super();
@@ -40,6 +42,24 @@ public class Employee {
 		this.tel = tel;
 		this.picUrl = picUrl;
 	}
+
+	public Employee(int empNo, String empName, Title title, Employee manager, int salary, Department dept, String email,
+			Date regDate, String tel, String picUrl) {
+		super();
+		this.empNo = empNo;
+		this.empName = empName;
+		this.title = title;
+		this.manager = manager;
+		this.salary = salary;
+		this.dept = dept;
+		this.email = email;
+		this.regDate = regDate;
+		this.tel = tel;
+		this.picUrl = picUrl;
+	}
+
+
+
 
 	public int getEmpNo() {
 		return empNo;
