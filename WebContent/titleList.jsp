@@ -24,8 +24,8 @@ $(function(){
 </script>
 </head>
 <body>
-${list}
-<br><hr><br>
+<%-- ${list} 
+<br><hr><br> --%>
 <h2>직책목록</h2>
 <table border=1>
 	<thead>

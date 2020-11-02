@@ -11,150 +11,151 @@
 src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	var status = false;
-	$('#modify').on("click", function(){
-		alert("수정");
-		if(!status){
-			$('input').each(function(index, value){
-				$(this).attr("readonly", false);
-				console.log($(this));
-			});
-			$('#empNo').attr("readonly", false);
-			$('select').each(function(index, value){
-				$(this).prop('disabled', false);
-			});
-			status=true;
-		}else{
-			if($('#passwd').val() != $('#repasswd').val()){
-				alert("비밀번호가 틀립니다.");
-				$('#passwd').val('');
-				$('#repasswd').val('');
-				$('#passwd').focuse();
-				return;
-			}
-			
-			//validCheck()추가하기
-			
-			var updateEmp={
-					empNo : $('#empNo').val(),
-					empName : $('#empName').val(),
-					title : {titleNo:$('#title').val()},
-					manager : {empNo:$('#manager').val()},
-					salary : $('#salary').val(),
-					dept : {deptNo:$('#dept').val()},
-					regDate : $('#regDate').val(),
-					email : $('#tel').val(),
-					passwd : $('#passwd').val()
-			};
-			
-			$.ajax({
-				type : "post",
-				url : "EmpModifyHandler",
-				data : JSON.stringify(updateEmp),
-				success : function(data){
-					alert(data);
-					if(data == 1){
-						window.location.href="EmpListHandler";
-					}
-				}
-			});
-		}
-	});
-	
+    var status = false;
+    $('#modify').on("click", function(){
+        alert("수정");
+        if (!status){
+            $('input').each(function(index, value){
+                $(this).attr("readonly", false);
+                console.log($(this));
+            });
+            $('#empNo').attr("readonly", true);
+            $('select').each(function(index, value){
+                $(this).prop('disabled', false);
+            });
+            status = true;
+        }else{
+            if ($('#passwd').val() != $('#repasswd').val()){
+                alert("비밀번호가 틀립니다.");
+                $('#passwd').val('');
+                $('#repasswd').val('');
+                $('#passwd').focus();
+                return;
+            }
+            
+            //validCheck() 추가하기
+            
+            var updateEmp = {
+                    empNo : $('#empNo').val(),
+                    empName : $('#empName').val(),
+                    title:{titleNo:$('#title').val()},
+                    manager:{empNo:$('#manager').val()},
+                    salary:$('#salary').val(),
+                    dept:{deptNo:$('#dept').val()},
+                    regDate:$('#regDate').val(),
+                    email:$('#email').val(),
+                    tel:$('#tel').val(),
+                    passwd:$('#passwd').val()
+                };
+         //작업하기
+             $.ajax({
+                type:"post",
+                url:"EmpModifyHandler",
+                data:JSON.stringify(updateEmp),
+                success: function(data){
+                    alert(data);
+                    if (data == 1){
+                        window.location.href = "EmpListHandler";
+                    }
+                }
+            }); 
+        }
+    });
+    
 	$.post("TitleListHandler", function(json){
-		var titleSelected = ${emp.title.titleNo};
-		var dataLength = json.length;
-		if(dataLength >=1 ){
-			var sCont = "";
-			sCont += "<option value='' disabled select hidden>직책을 선택하세요....</option>";
-			for(i=0; i<dataLength; i++){
-				sCont += "<option value=" + json[i].titleNo;
-				if(titleSelected == json[i].titleNo){
-					sCont += " selected ";
-				}
-				sCont += " >" + json[i]titleName + "</>";
-			}
-			$("#title").append(sCont);
-		}
+	    var titleSelected = ${emp.title.titleNo};
+	     var dataLength = json.length;
+	     if ( dataLength >=1 ){
+	         var sCont = "";
+	         sCont += "<option value='' disabled selected hidden>직책을 선택하세요...</option>";
+	         for ( i=0 ; i < dataLength ; i++){
+	             sCont += "<option value=" + json[i].titleNo;
+	             if (titleSelected == json[i].titleNo){
+	                 sCont += " selected ";
+	             }
+	             sCont += " >" + json[i].titleName + "</>";
+	         }
+	         $("#title").append(sCont);   
+	     }
 	});
-	
+	 
 	$.post("DeptListHandler", function(json){
-		var deptSelected = ${emp.dept.deptNo};
-		
-		var dataLength = json.length;
-		if(dataLength >=1){
-			var sCont = "<option value='' disabled selected hidden>부서를 선택하세요....</option>";
-			for(i=0; i<dataLength; i++){
-				sCont +="<option value=" + json[i].deptNo;
-				if(deptSelected == json[i].deptNo){
-					sCont += " selected ";
-			}
-			sCont += " >" + json[i].deptName + "</>";
-			}
-			$("#dept").append(sCont);
+	    var deptSelected = ${emp.dept.deptNo};
+	    
+	  	var dataLength = json.length;
+		if (dataLength >= 1) {
+		    var sCont = "<option value='' disabled selected hidden>부서를 선택하세요...</option>";
+		    for (i = 0; i < dataLength; i++) {
+		        sCont += "<option value=" + json[i].deptNo ; 
+		        if (deptSelected == json[i].deptNo ){
+		            sCont += " selected ";
+		        }
+		        sCont += " >" + json[i].deptName + "</>";
+		    }
+		    $("#dept").append(sCont);
 		}
 	});
-	
-	$.post("EmpManagerListHandler",function(json){
-		var dataLength = json.length;
-		var managerno = ${emp.manager.empNo};
-		if(dataLength >= 1){
-			var sCont = "<option value='' disabled selected hidden>직속상사를 선택하세요....</option>";
-			for(i=0; i<dataLength; i++){
-				sCont += "<option value=" + json[i].empNo;
-				if(managerno == json[i].empNo){
-					sCont += " selected ";
-				}
-				sCont += " >" + json[i].empName + "</>";
-			}
-			$("#manager").append(sCont);
+
+	$.post("EmpManagerListHandler",  function(json){
+	  	var dataLength = json.length;
+	  	var managerno = ${emp.manager.empNo};
+		if (dataLength >= 1) {
+		    var sCont = "<option value='' disabled selected hidden>직속상사를 선택하세요...</option>";
+		    for (i = 0; i < dataLength; i++) {
+		        sCont += "<option value=" + json[i].empNo ; 
+ 		        if ( managerno == json[i].empNo ){
+		            sCont += " selected ";
+		        } 
+		        sCont += " >" + json[i].empName + "</>";
+		    }
+		    $("#manager").append(sCont);
 		}
 	});
+
 	
 	$('#dept').on("change", function(){
-		alert($('#dept').val());
+		alert($('#dept').val()); 
 		var selectedManagerd = ${emp.manager.empNo};
 		
 		$("#manager").empty();
 		var dept = {deptNo : $('#dept').val()};
 		
-		$.get("EmpManagerListHandler", dept, function(jsom){
-			var dataLength = json.length;
-			if(dataLength >= 1){
-				var sCont ="";
-				for(i=0; i<dataLength; i++){
-					sCont += "<option value=" + json[i].empNo;
-					if(selectedManagerd == json[i].empNo){
-						sCont += " selected ";
-					}
-					sCont +=">" + json[i].empName + "</>";
-				}
-				$("#manager").append(sCont);
-			}
+		$.get("EmpManagerListHandler", dept, function(json){
+		    var dataLength = json.length;
+	        if ( dataLength >=1 ){
+	            var sCont = "";
+	            for ( i=0 ; i < dataLength ; i++){
+	                sCont += "<option value=" + json[i].empNo;
+	                if (selectedManagerd == json[i].empNo ){
+			            sCont += " selected ";
+			        }
+	                sCont += ">" + json[i].empName + "</>";
+	            }
+	            $("#manager").append(sCont);   
+	        }
 		});
 	});
 	
 	$('#list').on("click", function(){
-		window location.href = "EmpListHandler";
+	    window.location.href = "EmpListHandler";
 	});
 	
 	$('#delete').on("click", function(){
-		alert("삭제");
-		var delEmp = {empNo:$('#empNo').val()}
-		$.ajax({
-			type:"get",
-			url:"EmpDeleteHandler",
-			data:delEmp,
-			success:function(data){
-				alert(data);
-				if(data==1){
-					alert("삭제되었습니다.");
-					window.location.href="EmpListHandler";
-				}
-			}
-		});
+	    alert("삭제");
+        var delEmp ={empNo:$('#empNo').val()}
+        $.ajax({
+            type: "get", 
+            url:"EmpDeleteHandler",
+            data:delEmp,
+            success: function(data){
+                alert(data);// 1이면 삭제 0이면 실패
+                if (data==1){
+                    alert("삭제 되었습니다.");
+                    window.location.href = "EmpListHandler";
+                }
+            }
+        });
 	});
-	
 });
 </script>
 </head>

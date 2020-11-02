@@ -1,8 +1,7 @@
 package project01.model;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,15 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-
-import project01.dto.Employee;
 import project01.service.EmpService;
 
-@WebServlet("/EmpModifyHandler")
-public class EmpModifyHandler extends HttpServlet {
+@WebServlet("/DuplicateEmpNoCheckHandler")
+public class DuplicateEmpNoCheckHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private EmpService service;
 
@@ -35,17 +29,17 @@ public class EmpModifyHandler extends HttpServlet {
 		process(request, response);
 	}
 
-	private void process(HttpServletRequest request, HttpServletResponse response) throws JsonSyntaxException, JsonIOException, UnsupportedEncodingException, IOException {
+	private void process(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if(request.getMethod().equalsIgnoreCase("GET")) {
 			System.out.println("GET");
 		}else {
-			System.out.println("POST");
-			Gson gson = new Gson();
-			Employee emp = gson.fromJson(new InputStreamReader(request.getInputStream(), "UTF-8"), Employee.class);
-			System.out.println(emp);
-			
-			int res = service.modifyEmployee(emp);
-			response.getWriter().print(res);
+			System.out.println();
+			int empNo = Integer.parseInt(request.getParameter("empNo"));
+			int res = service.duplicateEmpNo(empNo);
+			System.out.println("res >> " + res);
+			PrintWriter pw = response.getWriter();
+			pw.print(res);
+			pw.flush();
 		}
 		
 	}

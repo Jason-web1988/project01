@@ -17,6 +17,7 @@ public class Department {
 	}
 
 
+
 	public Department(int deptNo, String deptName, int floor) {
 		super();
 		this.deptNo = deptNo;

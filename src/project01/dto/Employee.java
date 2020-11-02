@@ -27,21 +27,15 @@ public class Employee {
 
 
 
-	public Employee(int empNo, String empName, Title title, Employee manager, int salary, Department dept, String email,
-			String passwd, Date regDate, String tel, String picUrl) {
+
+	public Employee(int empNo, String empName) {
 		super();
 		this.empNo = empNo;
 		this.empName = empName;
-		this.title = title;
-		this.manager = manager;
-		this.salary = salary;
-		this.dept = dept;
-		this.email = email;
-		this.passwd = passwd;
-		this.regDate = regDate;
-		this.tel = tel;
-		this.picUrl = picUrl;
 	}
+	
+	
+
 
 	public Employee(int empNo, String empName, Title title, Employee manager, int salary, Department dept, String email,
 			Date regDate, String tel, String picUrl) {

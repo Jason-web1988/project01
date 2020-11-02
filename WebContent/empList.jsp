@@ -13,45 +13,76 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
 <script type="text/javascript">
 $(function(){
-	$.post("EmpListHandler", function(json){
-        var dataLength = json.length;
-        if ( dataLength >=1 ){
-            var sCont = "";
-            for ( i=0 ; i < dataLength ; i++){
-               sCont += "<tr>";
-               sCont += "<td>" + json[i].empNo + "</td>";
-               sCont += "<td><a href='EmpGetHandler?empNo="+json[i].empNo+"'>" + json[i].empName + "</a></td>";
-               sCont += "<td>" + json[i].title.titleName + "("+ json[i].title.titleNo + ")</td>";
-               if (json[i].manager.empNo != 0){
-                   sCont += "<td>" + json[i].manager.empName + "("+ json[i].manager.empNo + ")</td>";
-               }else{
-                   sCont += "<td></td>"; 
-               }
-               sCont += "<td>" + json[i].salary.toLocaleString("ko") + "</td>";
-               sCont += "<td>" + json[i].dept.deptName + "("+ json[i].dept.deptNo + ")</td>";
-               sCont += "<td>" + moment(json[i].regDate).format('LL') + "</td>";
-               sCont += "<td>" + json[i].email + "</td>";
-               sCont += "<td>" + json[i].tel + "</td>";
-               sCont += "</tr>";
-           }
-           /* $("table > tbody:last-child").append(sCont);    */
-           $("#load:last-child").append(sCont);   
-       } 
+    var delay = 0000;
+    $.post("TitleListHandler", function(json){
+        setTimeout(function() {
+	        var dataLength = json.length;
+	        if ( dataLength >=1 ){
+	            var sCont = "";
+	            for ( i=0 ; i < dataLength ; i++){
+	                sCont += "<option value=" + json[i].titleNo + ">" + json[i].titleName + "</>";
+	            }
+	            $("#title").append(sCont);   
+	        }
+        }, delay);
     });
+    
+    $.post("DeptListHandler", function(json){
+        setTimeout(function() {
+	        var dataLength = json.length;
+	        if ( dataLength >=1 ){
+	            var sCont = "";
+	            for ( i=0 ; i < dataLength ; i++){
+	                sCont += "<option value=" + json[i].deptNo + ">" + json[i].deptName + "</>";
+	            }
+	            $("#department").append(sCont);   
+	        }
+        }, delay);
+    });
+    
+    $('#addEmp').on("click", function(){
+        self.location = "empAdd.jsp";
+    });
+     
+     $.post("EmpListHandler", function(json){
+         var dataLength = json.length;
+         if ( dataLength >=1 ){
+             var sCont = "";
+             for ( i=0 ; i < dataLength ; i++){
+                sCont += "<tr>";
+                sCont += "<td>" + json[i].empNo + "</td>";
+                sCont += "<td><a href='EmpGetHandler?empNo="+json[i].empNo+"'>" + json[i].empName + "</a></td>";
+                sCont += "<td>" + json[i].title.titleName + "("+ json[i].title.titleNo + ")</td>";
+                if (json[i].manager.empNo != 0){
+                    sCont += "<td>" + json[i].manager.empName + "("+ json[i].manager.empNo + ")</td>";
+                }else{
+                    sCont += "<td></td>"; 
+                }
+                sCont += "<td>" + json[i].salary.toLocaleString("ko") + "</td>";
+                sCont += "<td>" + json[i].dept.deptName + "("+ json[i].dept.deptNo + ")</td>";
+                sCont += "<td>" + moment(json[i].regDate).format('LL') + "</td>";
+                sCont += "<td>" + json[i].email + "</td>";
+                sCont += "<td>" + json[i].tel + "</td>";
+                sCont += "</tr>";
+            }
+            /* $("table > tbody:last-child").append(sCont);    */
+            $("#load:last-child").append(sCont);   
+        } 
+     });
 });
 </script>
 </head>
 <body>
-${list}
-<br><hr><br>
-	<label for="title">직책</label>
+<%-- ${list}
+<br><hr><br> --%>
+<!-- 	<label for="title">직책</label>
 	<select id="title">
 	</select>
 	<label for="department">부서</label>
 	<select id="department">
-	</select>
+	</select> -->
 	
-	<h2>사원목록</h2>
+	<!-- <h2>사원목록</h2>
     <table border=1>
         <thead>
             <td>사원번호</td>
@@ -67,9 +98,19 @@ ${list}
         <tbody id="load">
         </tbody>
     </table>
-    <br><hr><br>
+    <button id="addEmp">사원추가</button>
+    
+    <br><hr><br> -->
+    
 <h2>사원목록</h2>
-
+	<label for="title">직책</label>
+	<select id="title">
+	</select>
+	<label for="department">부서</label>
+	<select id="department">
+	</select>
+	<br><br>
+	<button id="addEmp">사원추가</button>
 <table border=1>
 	<thead>
 		<td>사원번호</td>
@@ -91,13 +132,13 @@ ${list}
 				<td>${emp.manager.empName }(${emp.manager.empNo })</td>
 				<td>${emp.salary }</td>
 				<td>${emp.dept.deptName }(${emp.dept.deptNo })</td>
-				<td><fmt:formatDate value="${emp.regDate }" pattern="yyyy년MM월dd일"/></td>
+				<td><fmt:formatDate value="${emp.regDate }" pattern="yyyy년 MM월 dd일"/></td>
 				<td>${emp.email }</td>
 				<td>${emp.tel }</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
-<button id="addEmp">사원추가</button>
+
 </body>
 </html>

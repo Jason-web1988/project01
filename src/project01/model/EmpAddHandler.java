@@ -18,8 +18,8 @@ import com.google.gson.JsonSyntaxException;
 import project01.dto.Employee;
 import project01.service.EmpService;
 
-@WebServlet("/EmpModifyHandler")
-public class EmpModifyHandler extends HttpServlet {
+@WebServlet("/EmpAddHandler")
+public class EmpAddHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private EmpService service;
 
@@ -44,7 +44,7 @@ public class EmpModifyHandler extends HttpServlet {
 			Employee emp = gson.fromJson(new InputStreamReader(request.getInputStream(), "UTF-8"), Employee.class);
 			System.out.println(emp);
 			
-			int res = service.modifyEmployee(emp);
+			int res = service.addEmployee(emp);
 			response.getWriter().print(res);
 		}
 		
